@@ -2,25 +2,23 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Кино дневник</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyMovies DB</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>🎬 MyMovies</h1>
-        <nav>
-            <a href="index.html">Главная</a>
-            <a href="add_movie.html">Добавить</a>
-            <a href="plans.html">В планах</a>
-        </nav>
-    </header>
-    <main id="movie-list">
-        <h2>Мои просмотры</h2>
-        <div class="movie-card">
-            <h3>Ведьма 2018</h3>
-            <p>Оценка: 10/10</p>
-            <span class="status">Просмотрено</span>
-        </div>
-    </main>
+<nav class="sidebar">
+    <div class="logo">MyMovies <span>DB</span></div>
+    <a href="index.html">Фильмы</a>
+    <a href="add_movie.html">Добавить</a>
+    <a href="plans.html">Планы</a>
+</nav>
+    <div class="main-content">
+        <header>Моя библиотека</header>
+        <main class="content-area">
+            <div id="movie-list" class="movie-grid"></div>
+        </main>
+    </div>
+    <script src="index.js"></script>
 </body>
 </html>

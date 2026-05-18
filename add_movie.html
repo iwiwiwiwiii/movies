@@ -1,14 +1,51 @@
-<main>
-    <h2>Добавить новый фильм</h2>
-    <form id="movieForm">
-        <input type="text" id="title" placeholder="Название фильма" required>
-        <input type="number" id="year" placeholder="Год">
-        <select id="status">
-            <option value="watched">Просмотрено</option>
-            <option value="plan">В планах</option>
-        </select>
-        <textarea id="review" placeholder="Ваш отзыв"></textarea>
-        <button type="submit">Сохранить</button>
-    </form>
-</main>
-<script src="script.js"></script>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление материала</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+    <div class="logo">MyMovies <span>DB</span></div>
+    <a href="index.html">Фильмы</a>
+    <a href="add_movie.html">Добавить</a>
+    <a href="plans.html">Планы</a>
+</nav>
+    <div class="main-content">
+        <header>Добавление материала</header>
+        <main class="content-area">
+            <div class="form-container">
+                <div class="row">
+                    <div class="field">
+                        <label>НАЗВАНИЕ ФИЛЬМА / СЕРИАЛА</label>
+                        <input type="text" placeholder="Введите название...">
+                    </div>
+                    <div class="field">
+                        <label>ГОД ВЫПУСКА</label>
+                        <input type="number" value="2024">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <label>ЖАНР</label>
+                        <input type="text" placeholder="Триллер, Драма...">
+                    </div>
+                    <div class="field">
+                        <label>СТАТУС ПРОСМОТРА</label>
+                        <select>
+                            <option>В планах</option>
+                            <option>Смотрю</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>КРАТКОЕ ОПИСАНИЕ СЮЖЕТА</label>
+                    <textarea rows="5" placeholder="О чем этот фильм?"></textarea>
+                </div>
+                <button class="save-btn">СОХРАНИТЬ В БАЗУ</button>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
