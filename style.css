@@ -96,4 +96,10 @@ input, select, textarea {
     font-weight: bold;
     cursor: pointer;
     width: 200px;
+        transition: all 0.2s;
+}
+
+.save-btn:hover {
+    background: #9e1818;
+    transform: scale(1.02);
 }
