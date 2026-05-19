@@ -9,43 +9,93 @@
 <nav class="sidebar">
     <div class="logo">MyMovies <span>DB</span></div>
     <a href="index.html">Фильмы</a>
-    <a href="add_movie.html">Добавить</a>
+    <a href="add_movie.html" class="active">Добавить</a>
     <a href="plans.html">Планы</a>
 </nav>
-    <div class="main-content">
-        <header>Добавление материала</header>
-        <main class="content-area">
-            <div class="form-container">
-                <div class="row">
-                    <div class="field">
-                        <label>Название фильма,сериала,мультфильма</label>
-                        <input type="text" placeholder="Введите название">
-                    </div>
-                    <div class="field">
-                        <label>Год выпуска</label>
-                        <input type="number" value="2024">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="field">
-                        <label>Жанр</label>
-                        <input type="text" placeholder="Ужасы, триллер">
-                    </div>
-                    <div class="field">
-                        <label>Статус просмотра</label>
-                        <select>
-                            <option>В планах</option>
-                            <option>Смотрю</option>
-                        </select>
-                    </div>
+<div class="main-content">
+    <header>Добавление материала</header>
+    <main class="content-area">
+        <div class="form-container">
+            <div class="row">
+                <div class="field">
+                    <label>Название фильма</label>
+                    <input type="text" id="movieTitle" placeholder="Введите название">
                 </div>
                 <div class="field">
-                    <label>Описание сюжета</label>
-                    <textarea rows="5" placeholder="О чем этот фильм?"></textarea>
+                    <label>Год выпуска</label>
+                    <input type="number" id="movieYear" value="2024">
                 </div>
-                <button class="save-btn">Сохранить</button>
             </div>
-        </main>
-    </div>
+            <div class="row">
+                <div class="field">
+                    <label>Жанр</label>
+                    <input type="text" id="movieGenre" placeholder="Ужасы, триллер">
+                </div>
+                <div class="field">
+                    <label>Статус просмотра</label>
+                    <select id="movieStatus">
+                        <option>В планах</option>
+                        <option>Смотрю</option>
+                        <option>ОЦЕНЕНО</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <label>Описание сюжета</label>
+                <textarea id="movieDesc" rows="5" placeholder="О чем этот фильм?"></textarea>
+            </div>
+            <button class="save-btn" id="saveBtn">Сохранить</button>
+        </div>
+    </main>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8000/api';
+    
+    document.getElementById('saveBtn').addEventListener('click', async function() {
+        const title = document.getElementById('movieTitle').value.trim();
+        
+        if (!title) {
+            alert('Введите название фильма');
+            return;
+        }
+        
+        const newMovie = {
+            title: title,
+            year: document.getElementById('movieYear').value,
+            genre: document.getElementById('movieGenre').value.trim(),
+            status: document.getElementById('movieStatus').value,
+            description: document.getElementById('movieDesc').value.trim(),
+            rating: "☆☆☆☆☆",
+            img: document.getElementById('movieImg').value.trim()
+        };
+        
+        try {
+            const response = await fetch(`${API_URL}/movies`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newMovie)
+            });
+            
+            if (response.ok) {
+                alert(`Фильм "${title}" сохранён`);
+                
+                document.getElementById('movieTitle').value = '';
+                document.getElementById('movieGenre').value = '';
+                document.getElementById('movieDesc').value = '';
+                document.getElementById('movieImg').value = '';
+                document.getElementById('movieYear').value = '2024';
+                document.getElementById('movieStatus').value = 'В планах';
+            } else {
+                alert('Ошибка при сохранении');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert('Сервер не запущен(');
+        }
+    });
+</script>
 </body>
 </html>
