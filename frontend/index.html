@@ -9,6 +9,7 @@
 <body>
 <nav class="sidebar">
     <div class="logo">MyMovies<span>DB</span></div>
+    <!-- <a href="reg.jsx"> Регистрация </a> -->
     <a href="index.html" class="active">Фильмы</a>
     <a href="add_movie.html">Добавить</a>
     <a href="plans.html">Планы</a>
@@ -54,16 +55,9 @@
         } catch (error) {
             console.error('Ошибка:', error);
             document.getElementById('movie-list').innerHTML = 
-                '<p style="text-align: center; color: #ef4444;">❌ Сервер не запущен! Запусти: python server.py</p>';
+                '<p style="text-align: center; color: #ef4444;">Сервер не запущен(</p>';
         }
     }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
     loadMovies();
 </script>
 </body>
