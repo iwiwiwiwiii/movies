@@ -1,3 +1,5 @@
+const API_URL = 'http://localhost:8000/api/movies';
+
 const defaultMovies = [
     {
         title: "Линчеватель",
@@ -22,29 +24,59 @@ const defaultMovies = [
     }
 ];
 
-function renderMovies() {
+function displayMovies(moviesArray) {
     const list = document.getElementById('movie-list');
     if (!list) return;
 
-    list.innerHTML = defaultMovies.map(movie => `
+    list.innerHTML = '';
+
+    const htmlContent = moviesArray.map(movie => `
         <div class="movie-card">
-            <div class="poster-wrapper"><img src="${movie.img}" onerror="this.src='placeholder.jpg'"></div>
+            <div class="poster-wrapper">
+                <img src="${movie.img || 'placeholder.jpg'}" onerror="this.src='placeholder.jpg'">
+            </div>
             <div class="card-info">
                 <h3>${movie.title}</h3>
-                <p style="font-size: 0.8rem; color: #a0a0a0;">${movie.year} <span class="status-badge">${movie.status}</span></p>
+                <p style="font-size: 0.8rem; color: #a0a0a0;">
+                    ${movie.year} <span class="status-badge">${movie.status}</span>
+                </p>
                 <div class="stars">${movie.rating}</div>
             </div>
         </div>
     `).join('');
+
+    list.innerHTML = htmlContent;
 }
 
-function addMovie(newMovie) {
-    defaultMovies.push(newMovie);
-    localStorage.setItem('movies', JSON.stringify(defaultMovies));
-    renderMovies();
+async function renderMovies() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Ошибка сервера');
+        
+        const serverMovies = await response.json();
+        displayMovies(serverMovies);
+    } catch (error) {
+        console.warn(error);
+        displayMovies(defaultMovies);
+    }
+}
+
+async function addMovie(newMovie) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newMovie)
+        });
+
+        if (!response.ok) throw new Error('Не удалось добавить на сервер');
+        
+        renderMovies();
+    } catch (error) {
+        console.error(error);
+        defaultMovies.push(newMovie);
+        displayMovies(defaultMovies);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', renderMovies);
-
-
-

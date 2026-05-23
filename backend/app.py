@@ -36,34 +36,35 @@ next_id = 4
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
-        if self.path == '/api/movies':
+        if self.path == '/api/movies' or self.path == '/':
             self.send_response(200)
-            self.send_header('Content-type', 'application/json')
+            self.send_header('Content-type', 'application/json; charset=utf-8')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write(json.dumps(movies).encode())
+            response_data = json.dumps(movies, ensure_ascii=False).encode('utf-8')
+            self.wfile.write(response_data)
             return
         else:
             return super().do_GET()
     
     def do_POST(self):
         global movies, next_id
-        
-        if self.path == '/api/movies':
+        if self.path == '/api/movies' or self.path == '/':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
-            new_movie = json.loads(post_data.decode())
+            new_movie = json.loads(post_data.decode('utf-8'))
             
             new_movie['id'] = next_id
             next_id += 1
-            
             movies.append(new_movie)
             
             self.send_response(201)
-            self.send_header('Content-type', 'application/json')
+            self.send_header('Content-type', 'application/json; charset=utf-8')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write(json.dumps({"message": "Фильм добавлен", "id": new_movie['id']}).encode())
+            
+            response_msg = json.dumps({"message": "Фильм добавлен", "id": new_movie['id']}, ensure_ascii=False)
+            self.wfile.write(response_msg.encode('utf-8'))
             return
     
     def do_OPTIONS(self):

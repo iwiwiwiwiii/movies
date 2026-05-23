@@ -9,7 +9,6 @@
 <body>
 <nav class="sidebar">
     <div class="logo">MyMovies<span>DB</span></div>
-    <!-- <a href="reg.jsx"> Регистрация </a> -->
     <a href="index.html" class="active">Фильмы</a>
     <a href="add_movie.html">Добавить</a>
     <a href="plans.html">Планы</a>
@@ -21,44 +20,6 @@
     </main>
 </div>
 
-<script>
-    const API_URL = 'http://localhost:8000/api';
-    
-    async function loadMovies() {
-        try {
-            const response = await fetch(`${API_URL}/movies`);
-            const movies = await response.json();
-            
-            const container = document.getElementById('movie-list');
-            
-            if (movies.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #94a3b8;">Нет фильмов. Добавьте первый!</p>';
-                return;
-            }
-            
-            container.innerHTML = movies.map(movie => `
-                <div class="movie-card">
-                    <div class="poster-wrapper">
-                        <img src="${movie.img || ''}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Poster'">
-                    </div>
-                    <div class="card-info">
-                        <h3>${escapeHtml(movie.title)}</h3>
-                        <p style="font-size: 0.8rem; color: #a0a0a0;">
-                            ${movie.year || '—'} 
-                            <span class="status-badge">${movie.status || 'В планах'}</span>
-                        </p>
-                        <div class="stars">${movie.rating || '☆☆☆☆☆'}</div>
-                        ${movie.genre ? `<p style="font-size: 0.7rem; color: #94a3b8;">${escapeHtml(movie.genre)}</p>` : ''}
-                    </div>
-                </div>
-            `).join('');
-        } catch (error) {
-            console.error('Ошибка:', error);
-            document.getElementById('movie-list').innerHTML = 
-                '<p style="text-align: center; color: #ef4444;">Сервер не запущен(</p>';
-        }
-    }
-    loadMovies();
-</script>
+<script src="index.js"></script>
 </body>
 </html>
